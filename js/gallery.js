@@ -48,9 +48,9 @@ const images = [
 
 const galleryContainer = document.querySelector('.gallery');
 const galleryMarkup = images
-  .map(({ preview, original, description }) => {
-    return `
-      <li class="gallery-item">
+  .map(
+    ({ preview, original, description }) =>
+      `<li class="gallery-item">
         <a class="gallery-link" href="${original}">
           <img
             class="gallery-image"
@@ -59,16 +59,18 @@ const galleryMarkup = images
             alt="${description}"
           />
         </a>
-      </li>`;
-  })
+      </li>`
+  )
   .join('');
 galleryContainer.innerHTML = galleryMarkup;
 
 galleryContainer.addEventListener('click', event => {
   event.preventDefault();
-  if (!event.target.classList.contains('gallery-image')) return;
+  const clickedImage = event.target.classList.contains('gallery-image');
+  if (!clickedImage) return;
+
   const instance = basicLightbox.create(`
-    <img src="${event.target.dataset.source}" alt="${event.target.alt}" />
+    <img src="${event.target.dataset.source}" alt="${event.target.alt}">
   `);
   instance.show();
 });
